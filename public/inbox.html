@@ -6,51 +6,20 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-  <div class="container">
-    <h1>Your Inbox 📥</h1>
-    <p class="subtitle">Anonymous messages sent to you will appear here</p>
-
-    <div id="messages" class="messages">
-      <!-- Messages will load here -->
-    </div>
-
-    <p id="empty" class="empty hidden">
-      No messages yet. Share your link and check back later ✨
+  <div class="card">
+    <h1>Your Anonymous Messages 📬</h1>
+    <p class="subtitle">
+      All messages sent to your inbox will appear below.
     </p>
+
+    <!-- Container for messages -->
+    <div id="messages" class="messages"></div>
+
+    <!-- Empty state message -->
+    <p id="empty" class="empty hidden">No messages yet. Share your link to start receiving messages!</p>
   </div>
 
+  <!-- Front-end JS -->
   <script src="script.js"></script>
-
-  <script>
-    // Inbox loader (professional version)
-    const pathParts = window.location.pathname.split("/");
-    const userId = pathParts[pathParts.length - 1];
-
-    fetch(`/messages/${userId}`)
-      .then(res => res.json())
-      .then(data => {
-        const container = document.getElementById("messages");
-        const empty = document.getElementById("empty");
-
-        if (data.length === 0) {
-          empty.classList.remove("hidden");
-          return;
-        }
-
-        data.reverse().forEach(msg => {
-          const card = document.createElement("div");
-          card.className = "message-card";
-          card.innerHTML = `
-            <p class="message-text">${msg.text}</p>
-            <span class="message-time">
-              ${new Date(msg.time).toLocaleString()}
-            </span>
-          `;
-          container.appendChild(card);
-        });
-      });
-  </script>
-
 </body>
 </html>
