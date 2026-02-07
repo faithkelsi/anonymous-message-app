@@ -1,19 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Anonymous Message</title>
+  <meta charset="UTF-8">
+  <title>Send Anonymous Message</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <h1>Send Anonymous Message</h1>
+  <div class="card">
+    <h1>Send an Anonymous Message 💬</h1>
+    <p class="subtitle">
+      Your identity will remain completely hidden.
+    </p>
 
-  <textarea id="message" placeholder="Type your anonymous message"></textarea>
-  <button onclick="sendMessage()">Send</button>
+    <textarea 
+      id="message" 
+      placeholder="Say something honest, kind, or bold..."
+    ></textarea>
 
-  <p id="status"></p>
+    <button onclick="sendMessage()">Send Message</button>
+
+    <p id="status" class="status"></p>
+  </div>
 
   <script src="script.js"></script>
 </body>
 </html>
-
