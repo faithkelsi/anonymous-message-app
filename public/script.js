@@ -1,10 +1,13 @@
-// Get userId from URL
-const pathParts = window.location.pathname.split("/");
+// -----------------------------
+// GET USER ID FROM URL
+// -----------------------------
+const pathParts = window.location.pathname.replace(/\/$/, "").split("/");
 const userId = pathParts[pathParts.length - 1];
+console.log("Current userId:", userId); // useful for debugging
 
-/* ----------------------------
-   SEND ANONYMOUS MESSAGE
------------------------------*/
+// -----------------------------
+// SEND ANONYMOUS MESSAGE
+// -----------------------------
 function sendMessage() {
   const messageInput = document.getElementById("message");
   const status = document.getElementById("status");
@@ -21,9 +24,7 @@ function sendMessage() {
 
   fetch(`/send/${userId}`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ message })
   })
     .then(res => res.json())
@@ -33,10 +34,8 @@ function sendMessage() {
         status.style.color = "green";
         messageInput.value = "";
 
-        // Show CTA to create own anonymous link
-        const cta = document.getElementById("cta");
-        if (cta) cta.classList.remove("hidden");
-
+        // Show CTA for visitor to create their own link
+        document.getElementById("cta")?.classList.remove("hidden");
       } else {
         status.innerText = "Something went wrong. Try again.";
         status.style.color = "red";
@@ -48,24 +47,9 @@ function sendMessage() {
     });
 }
 
-/* ----------------------------
-   CREATE OWN ANONYMOUS LINK (for visitors)
------------------------------*/
-function createMyLink() {
-  fetch("/create")
-    .then(res => res.json())
-    .then(data => {
-      // Redirect user to their new inbox
-      window.location.href = data.inbox;
-    })
-    .catch(() => {
-      alert("Unable to create link. Try again.");
-    });
-}
-
-/* ----------------------------
-   LOAD INBOX MESSAGES
------------------------------*/
+// -----------------------------
+// LOAD INBOX MESSAGES
+// -----------------------------
 if (window.location.pathname.includes("/inbox")) {
   fetch(`/messages/${userId}`)
     .then(res => res.json())
@@ -74,7 +58,7 @@ if (window.location.pathname.includes("/inbox")) {
       const empty = document.getElementById("empty");
 
       if (!data || data.length === 0) {
-        if (empty) empty.classList.remove("hidden");
+        empty?.classList.remove("hidden");
         return;
       }
 
@@ -95,26 +79,31 @@ if (window.location.pathname.includes("/inbox")) {
         container.appendChild(card);
       });
     })
-    .catch(() => {
-      console.error("Failed to load messages");
-    });
+    .catch(() => console.error("Failed to load messages"));
 }
 
-/* ----------------------------
-   CREATE USER LINK (Landing page)
------------------------------*/
+// -----------------------------
+// CREATE USER LINK (LANDING PAGE)
+// -----------------------------
 function createLink() {
   fetch("/create")
     .then(res => res.json())
     .then(data => {
-      const result = document.getElementById("result");
-      if (result) result.classList.remove("hidden");
-      const publicLink = document.getElementById("publicLink");
-      const inboxLink = document.getElementById("inboxLink");
-      if (publicLink) publicLink.value = data.link;
-      if (inboxLink) inboxLink.value = data.inbox;
+      document.getElementById("result")?.classList.remove("hidden");
+      document.getElementById("publicLink").value = data.link;
+      document.getElementById("inboxLink").value = data.inbox;
     })
-    .catch(() => {
-      alert("Failed to create link. Try again.");
-    });
+    .catch(() => alert("Failed to create link. Try again."));
+}
+
+// -----------------------------
+// CREATE LINK FROM CTA (send.html)
+// -----------------------------
+function createMyLink() {
+  fetch("/create")
+    .then(res => res.json())
+    .then(data => {
+      window.location.href = data.inbox;
+    })
+    .catch(() => alert("Failed to create link. Try again."));
 }
