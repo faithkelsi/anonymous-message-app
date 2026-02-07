@@ -1,1 +1,31 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+  padding: 30px;
+  text-align: center;
+}
+
+textarea {
+  width: 300px;
+  height: 100px;
+  margin-bottom: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  background: white;
+  margin: 10px auto;
+  padding: 10px;
+  width: 300px;
+  border-radius: 5px;
+}
 
