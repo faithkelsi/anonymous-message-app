@@ -1,4 +1,3 @@
-
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
@@ -20,7 +19,7 @@ if (!fs.existsSync(DATA_FILE)) {
   fs.writeFileSync(DATA_FILE, JSON.stringify({}));
 }
 
-// Home
+// Home / Landing page
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public/index.html"));
 });
@@ -34,7 +33,7 @@ app.get("/create", (req, res) => {
   });
 });
 
-// Send anonymous message
+// Send anonymous message (POST)
 app.post("/send/:userId", (req, res) => {
   const { message } = req.body;
   const userId = req.params.userId;
@@ -43,7 +42,7 @@ app.post("/send/:userId", (req, res) => {
     return res.status(400).json({ error: "Message required" });
   }
 
-  const data = JSON.parse(fs.readFileSync(DATA_FILE));
+  const data = JSON.parse(fs.readFileSync(DATA_FILE, "utf-8"));
 
   if (!data[userId]) {
     data[userId] = [];
@@ -59,9 +58,9 @@ app.post("/send/:userId", (req, res) => {
   res.json({ success: true });
 });
 
-// Message inbox
+// Get messages for inbox
 app.get("/messages/:userId", (req, res) => {
-  const data = JSON.parse(fs.readFileSync(DATA_FILE));
+  const data = JSON.parse(fs.readFileSync(DATA_FILE, "utf-8"));
   res.json(data[req.params.userId] || []);
 });
 
@@ -70,11 +69,12 @@ app.get("/inbox/:userId", (req, res) => {
   res.sendFile(path.join(__dirname, "public/inbox.html"));
 });
 
-// Send page
+// Send page (dedicated send.html)
 app.get("/send/:userId", (req, res) => {
-  res.sendFile(path.join(__dirname, "public/index.html"));
+  res.sendFile(path.join(__dirname, "public/send.html"));
 });
 
+// Start server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
