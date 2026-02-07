@@ -1,19 +1,56 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Anonymous Message</title>
+  <meta charset="UTF-8">
+  <title>Your Inbox</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <h1>Send Anonymous Message</h1>
+  <div class="container">
+    <h1>Your Inbox 📥</h1>
+    <p class="subtitle">Anonymous messages sent to you will appear here</p>
 
-  <textarea id="message" placeholder="Type your anonymous message"></textarea>
-  <button onclick="sendMessage()">Send</button>
+    <div id="messages" class="messages">
+      <!-- Messages will load here -->
+    </div>
 
-  <p id="status"></p>
+    <p id="empty" class="empty hidden">
+      No messages yet. Share your link and check back later ✨
+    </p>
+  </div>
 
   <script src="script.js"></script>
+
+  <script>
+    // Inbox loader (professional version)
+    const pathParts = window.location.pathname.split("/");
+    const userId = pathParts[pathParts.length - 1];
+
+    fetch(`/messages/${userId}`)
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById("messages");
+        const empty = document.getElementById("empty");
+
+        if (data.length === 0) {
+          empty.classList.remove("hidden");
+          return;
+        }
+
+        data.reverse().forEach(msg => {
+          const card = document.createElement("div");
+          card.className = "message-card";
+          card.innerHTML = `
+            <p class="message-text">${msg.text}</p>
+            <span class="message-time">
+              ${new Date(msg.time).toLocaleString()}
+            </span>
+          `;
+          container.appendChild(card);
+        });
+      });
+  </script>
+
 </body>
 </html>
-
