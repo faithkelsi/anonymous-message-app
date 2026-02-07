@@ -2,36 +2,30 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Send Anonymous Message</title>
+  <title>Anonymous Messages</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
   <div class="card">
-    <h1>Send an Anonymous Message 💬</h1>
+    <h1>Welcome to Anonymous Messages 💌</h1>
     <p class="subtitle">
-      Your identity will remain completely hidden.
+      Create your own link to receive anonymous messages.
     </p>
 
-    <textarea 
-      id="message" 
-      placeholder="Say something honest, kind, or bold..."
-    ></textarea>
+    <!-- Button to create a new anonymous inbox -->
+    <button onclick="createLink()">Create My Anonymous Link</button>
 
-    <button onclick="sendMessage()">Send Message</button>
+    <!-- Display the generated links -->
+    <div id="result" class="hidden">
+      <p>Your link to share with friends:</p>
+      <input type="text" id="publicLink" readonly>
 
-    <p id="status" class="status"></p>
-
-    <!-- CTA for visitors to create their own link -->
-    <div id="cta" class="hidden">
-      <p class="subtitle">
-        Want to receive anonymous messages too?
-      </p>
-      <button onclick="createMyLink()">Create My Link</button>
+      <p>Your inbox link (check your messages here):</p>
+      <input type="text" id="inboxLink" readonly>
     </div>
-
   </div>
 
+  <!-- Script handling link creation and fetch -->
   <script src="script.js"></script>
 </body>
 </html>
