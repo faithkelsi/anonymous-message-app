@@ -32,6 +32,11 @@ function sendMessage() {
         status.innerText = "Message sent successfully ✔️";
         status.style.color = "green";
         messageInput.value = "";
+
+        // Show CTA to create own anonymous link
+        const cta = document.getElementById("cta");
+        if (cta) cta.classList.remove("hidden");
+
       } else {
         status.innerText = "Something went wrong. Try again.";
         status.style.color = "red";
@@ -40,6 +45,21 @@ function sendMessage() {
     .catch(() => {
       status.innerText = "Network error. Please try again.";
       status.style.color = "red";
+    });
+}
+
+/* ----------------------------
+   CREATE OWN ANONYMOUS LINK (for visitors)
+-----------------------------*/
+function createMyLink() {
+  fetch("/create")
+    .then(res => res.json())
+    .then(data => {
+      // Redirect user to their new inbox
+      window.location.href = data.inbox;
+    })
+    .catch(() => {
+      alert("Unable to create link. Try again.");
     });
 }
 
@@ -81,15 +101,18 @@ if (window.location.pathname.includes("/inbox")) {
 }
 
 /* ----------------------------
-   CREATE USER LINK (Landing)
+   CREATE USER LINK (Landing page)
 -----------------------------*/
 function createLink() {
   fetch("/create")
     .then(res => res.json())
     .then(data => {
-      document.getElementById("result").classList.remove("hidden");
-      document.getElementById("publicLink").value = data.link;
-      document.getElementById("inboxLink").value = data.inbox;
+      const result = document.getElementById("result");
+      if (result) result.classList.remove("hidden");
+      const publicLink = document.getElementById("publicLink");
+      const inboxLink = document.getElementById("inboxLink");
+      if (publicLink) publicLink.value = data.link;
+      if (inboxLink) inboxLink.value = data.inbox;
     })
     .catch(() => {
       alert("Failed to create link. Try again.");
