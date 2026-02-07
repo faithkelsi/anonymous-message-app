@@ -38,6 +38,8 @@ app.post("/send/:userId", (req, res) => {
   const { message } = req.body;
   const userId = req.params.userId;
 
+  console.log("POST /send/:userId hit:", userId, message);
+
   if (!message) {
     return res.status(400).json({ error: "Message required" });
   }
@@ -58,7 +60,7 @@ app.post("/send/:userId", (req, res) => {
   res.json({ success: true });
 });
 
-// Get messages for inbox
+// Message inbox
 app.get("/messages/:userId", (req, res) => {
   const data = JSON.parse(fs.readFileSync(DATA_FILE, "utf-8"));
   res.json(data[req.params.userId] || []);
@@ -69,7 +71,7 @@ app.get("/inbox/:userId", (req, res) => {
   res.sendFile(path.join(__dirname, "public/inbox.html"));
 });
 
-// Send page (dedicated send.html)
+// Send page
 app.get("/send/:userId", (req, res) => {
   res.sendFile(path.join(__dirname, "public/send.html"));
 });
