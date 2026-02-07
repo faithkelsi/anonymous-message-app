@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Send Anonymous Message</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="card">
+    <h1>Send an Anonymous Message 💬</h1>
+    <p class="subtitle">
+      Your identity will remain completely hidden.
+    </p>
+
+    <!-- Message textarea -->
+    <textarea 
+      id="message" 
+      placeholder="Say something honest, kind, or bold..."
+    ></textarea>
+
+    <!-- Send button -->
+    <button onclick="sendMessage()">Send Message</button>
+
+    <!-- Status message -->
+    <p id="status" class="status"></p>
+
+    <!-- CTA for visitors to create their own anonymous link -->
+    <div id="cta" class="hidden">
+      <p class="subtitle">
+        Want to receive anonymous messages too?
+      </p>
+      <button onclick="createMyLink()">Create My Link</button>
+    </div>
+
+  </div>
+
+  <!-- Front-end JS -->
+  <script src="script.js"></script>
+
+</body>
+</html>
